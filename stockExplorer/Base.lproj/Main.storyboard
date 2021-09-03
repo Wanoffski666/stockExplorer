@@ -29,12 +29,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4a-he-YWH">
+                                <rect key="frame" x="0.0" y="593" width="414" height="269"/>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="E4a-he-YWH" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="DmY-d8-2jU"/>
+                            <constraint firstItem="E4a-he-YWH" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Fyf-ff-jnk"/>
                             <constraint firstItem="g0Q-p6-oev" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="QFH-qJ-Kkj"/>
                             <constraint firstItem="g0Q-p6-oev" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="Ssk-G1-CWT"/>
+                            <constraint firstItem="E4a-he-YWH" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.3" id="rGk-Qd-OOx"/>
+                            <constraint firstItem="E4a-he-YWH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uBr-nG-mWk"/>
                         </constraints>
                     </view>
                     <connections>

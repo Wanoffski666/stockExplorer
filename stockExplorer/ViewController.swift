@@ -11,10 +11,10 @@ class ViewController: UIViewController {
 
     
     @IBOutlet weak var companyName: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.companyName.text = "Apple"
+        
     }
 
 
