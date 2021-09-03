@@ -9,9 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    @IBOutlet weak var companyName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.companyName.text = "Apple"
     }
 
 
