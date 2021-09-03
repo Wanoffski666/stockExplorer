@@ -32,12 +32,17 @@
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4a-he-YWH">
                                 <rect key="frame" x="0.0" y="593" width="414" height="269"/>
                             </pickerView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="lrY-Gz-B6C">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="lrY-Gz-B6C" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3xR-XY-e4q"/>
                             <constraint firstItem="E4a-he-YWH" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="DmY-d8-2jU"/>
                             <constraint firstItem="E4a-he-YWH" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Fyf-ff-jnk"/>
+                            <constraint firstItem="lrY-Gz-B6C" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="O5B-Fu-tcZ"/>
                             <constraint firstItem="g0Q-p6-oev" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="QFH-qJ-Kkj"/>
                             <constraint firstItem="g0Q-p6-oev" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="Ssk-G1-CWT"/>
                             <constraint firstItem="E4a-he-YWH" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.3" id="rGk-Qd-OOx"/>
@@ -45,7 +50,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="lrY-Gz-B6C" id="xhS-c3-G4a"/>
                         <outlet property="companyName" destination="cd5-cc-Ui7" id="gX3-Tg-cx7"/>
+                        <outlet property="companyPicker" destination="E4a-he-YWH" id="w74-ed-ysa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
