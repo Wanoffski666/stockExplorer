@@ -62,6 +62,11 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.companySymbol.text = symbol
         self.companyPrice.text = "\(price)"
         self.companyPriceChange.text = "\(priceChange)"
+        if priceChange > 0 {
+            self.companyPriceChange.textColor = UIColor.green
+        } else {
+            self.companyPriceChange.textColor = UIColor.red
+        }
     }
     
     private func requestQuoteUpdate() {
