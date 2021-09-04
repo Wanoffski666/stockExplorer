@@ -29,6 +29,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var companyPicker: UIPickerView!
     @IBOutlet weak var companyName: UILabel!
+    @IBOutlet weak var companySymbol: UILabel!
+    @IBOutlet weak var companyPrice: UILabel!
+    @IBOutlet weak var companyPriceChange: UILabel!
     private let companies: [String: String] = ["Apple": "APPL", "Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
     
     private func parseQuote(data: Data) {
@@ -37,26 +40,37 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             
             guard
                 let json = jsonObject as? [String: Any],
-                let companyName = json["companyName"] as? String
+                let companyName = json["companyName"] as? String,
+                let companySymbol = json["symbol"] as? String,
+                let price = json["latestPrice"] as? Double,
+                let priceChange = json["change"] as? Double
             else {
                 print("Invalid JSON format")
                 return
             }
             DispatchQueue.main.async {
-                self.displayStockInfo(companyName: companyName)
+                self.displayStockInfo(companyName: companyName, symbol: companySymbol, price: price, priceChange: priceChange)
             }
         } catch {
             print("JSON parsing error: " + error.localizedDescription)
         }
     }
     
-    private func displayStockInfo(companyName: String) {
+    private func displayStockInfo(companyName: String, symbol: String, price: Double, priceChange: Double) {
         self.activityIndicator.stopAnimating()
         self.companyName.text = companyName
+        self.companySymbol.text = symbol
+        self.companyPrice.text = "\(price)"
+        self.companyPriceChange.text = "\(priceChange)"
     }
     
     private func requestQuoteUpdate() {
         self.activityIndicator.startAnimating()
+        self.companyName.text = "-"
+        self.companySymbol.text = "-"
+        self.companyPrice.text = "-"
+        self.companyPriceChange.text = "-"
+        
         let selectedRow = self.companyPicker.selectedRow(inComponent: 0)
         let selectedSymbol = Array(self.companies.values)[selectedRow]
         self.requestQuote(for: selectedSymbol)
