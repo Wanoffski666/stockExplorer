@@ -20,6 +20,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         return Array(self.companies.keys)[row]
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.activityIndicator.startAnimating()
+        let selectedSymbol = Array(self.companies.values)[row]
+        self.requestQuote(for: selectedSymbol)
+    }
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var companyPicker: UIPickerView!
     @IBOutlet weak var companyName: UILabel!
@@ -49,8 +55,16 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.companyName.text = companyName
     }
     
+    private func requestQuoteUpdate() {
+        self.activityIndicator.startAnimating()
+        let selectedRow = self.companyPicker.selectedRow(inComponent: 0)
+        let selectedSymbol = Array(self.companies.values)[selectedRow]
+        self.requestQuote(for: selectedSymbol)
+        
+    }
+    
     private func requestQuote(for symbol: String) {
-        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/quote")!
+        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/quote?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
         let dataTask = URLSession.shared.dataTask(with: url) {
             data, response, error in
             guard
@@ -65,15 +79,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         }
         dataTask.resume()
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.companyPicker.dataSource = self
         self.companyPicker.delegate = self
         self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.startAnimating()
-        self.requestQuote(for: "APPL")
+        self.requestQuoteUpdate()
     }
 
 
