@@ -61,11 +61,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.companyName.text = companyName
         self.companySymbol.text = symbol
         self.companyPrice.text = "\(price)"
-        self.companyPriceChange.text = "\(priceChange)"
         if priceChange > 0 {
             self.companyPriceChange.textColor = UIColor.green
+            self.companyPriceChange.text = "\(priceChange)" + "↑"
         } else {
             self.companyPriceChange.textColor = UIColor.red
+            self.companyPriceChange.text = "\(priceChange)" + "↓"
         }
     }
     
