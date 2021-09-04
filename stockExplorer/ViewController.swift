@@ -32,6 +32,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var companySymbol: UILabel!
     @IBOutlet weak var companyPrice: UILabel!
     @IBOutlet weak var companyPriceChange: UILabel!
+    @IBOutlet weak var companyLogo: UIImageView!
+    
     private let companies: [String: String] = ["Apple": "APPL", "Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
     
     private func parseQuote(data: Data) {
@@ -45,6 +47,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
                 let price = json["latestPrice"] as? Double,
                 let priceChange = json["change"] as? Double
             else {
+                
                 print("Invalid JSON format")
                 return
             }
@@ -76,7 +79,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.companySymbol.text = "-"
         self.companyPrice.text = "-"
         self.companyPriceChange.text = "-"
-        
+        self.companyPriceChange.textColor = UIColor.black
         let selectedRow = self.companyPicker.selectedRow(inComponent: 0)
         let selectedSymbol = Array(self.companies.values)[selectedRow]
         self.requestQuote(for: selectedSymbol)

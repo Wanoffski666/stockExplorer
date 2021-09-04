@@ -77,6 +77,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jki-Yz-lUU">
+                                <rect key="frame" x="149" y="399" width="117" height="99"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -93,6 +97,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="lrY-Gz-B6C" id="xhS-c3-G4a"/>
+                        <outlet property="companyLogo" destination="Jki-Yz-lUU" id="8va-Qt-seZ"/>
                         <outlet property="companyName" destination="cd5-cc-Ui7" id="gX3-Tg-cx7"/>
                         <outlet property="companyPicker" destination="E4a-he-YWH" id="w74-ed-ysa"/>
                         <outlet property="companyPrice" destination="WH0-Bg-gnI" id="9Km-AK-jVa"/>
