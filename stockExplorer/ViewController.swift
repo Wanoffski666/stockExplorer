@@ -35,7 +35,35 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var companyPriceChange: UILabel!
     @IBOutlet weak var companyLogo: UIImageView!
     
-    private let companies: [String: String] = ["Apple": "AAPL", "Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
+//    private func parseGainers(dataGain: Data) {
+//            do {
+//                let jsonObject = try JSONSerialization.jsonObject(with:dataGain)
+//                guard
+//                    let json = jsonObject as? [[String: Any]]
+//
+//                else {
+//                    print("Invalid JSON format of Gain")
+//                    return
+//                }
+//                DispatchQueue.main.async {
+//                    for i in 0...(json.count-1) {
+//                        let symbol = json[i]["symbol"] as? String
+//                        let company = json[i]["companyName"] as? String
+//                        self.updatingCompanies(companyUrl: symbol ?? "", symbolUrl: company ?? "")
+//                    }
+//
+//                }
+//            }
+//            catch {
+//                print("JSON parsing error: " + error.localizedDescription)
+//            }
+//        }
+//    private func updatingCompanies(companyUrl: String, symbolUrl: String) {
+//        print(companies)
+//        companies.updateValue(companyUrl, forKey: symbolUrl)
+//    }
+    private var companies: [String: String] = ["Apple":"AAPL","Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
+    
     
     private func parseImg(dataImg:Data) {
         do {
@@ -69,7 +97,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
                 let priceChange = json["change"] as? Double
             else {
                 
-                print("Invalid JSON format")
+                print("Invalid JSON format of quote")
                 return
             }
             DispatchQueue.main.async {
@@ -118,8 +146,21 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     private func requestQuote(for symbol: String) {
+        let gainUrl = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
         let imageUrl = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/logo?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
         let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/quote?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
+        let dataTaskGain = URLSession.shared.dataTask(with: gainUrl) {
+            data, response, error in
+            guard
+                error == nil,
+                (response as? HTTPURLResponse)?.statusCode == 200,
+                let dataGain = data
+            else {
+                print("Network error")
+                return
+            }
+//            self.parseGainers(dataGain: dataGain)
+        }
         let dataTask = URLSession.shared.dataTask(with: url) {
             data, response, error in
             guard
@@ -144,6 +185,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             }
             self.parseImg(dataImg: dataImg)
         }
+        dataTaskGain.resume()
         dataTask.resume()
         dataTaskImg.resume()
     }
