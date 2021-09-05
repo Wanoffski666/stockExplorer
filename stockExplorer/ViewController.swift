@@ -24,6 +24,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.activityIndicator.startAnimating()
         let selectedSymbol = Array(self.companies.values)[row]
         self.requestQuote(for: selectedSymbol)
+        self.requestQuote(for: selectedSymbol)
     }
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -34,7 +35,27 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var companyPriceChange: UILabel!
     @IBOutlet weak var companyLogo: UIImageView!
     
-    private let companies: [String: String] = ["Apple": "APPL", "Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
+    private let companies: [String: String] = ["Apple": "AAPL", "Microsoft": "MSFT", "Google": "GOOG", "Amazon": "AMZN", "Facebook": "FB"]
+    
+    private func parseImg(dataImg:Data) {
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with:dataImg)
+            
+            guard
+                let json = jsonObject as? [String: Any],
+                let imgUrl = json["url"] as? String
+            else {
+                
+                print("Invalid JSON format of IMG")
+                return
+            }
+            DispatchQueue.main.async {
+                self.displayLogoImg(imgUrlLogo: imgUrl)
+            }
+        } catch {
+            print("JSON parsing error: " + error.localizedDescription)
+        }
+    }
     
     private func parseQuote(data: Data) {
         do {
@@ -58,6 +79,16 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             print("JSON parsing error: " + error.localizedDescription)
         }
     }
+    
+    private func displayLogoImg(imgUrlLogo: String) {
+        let url = URL(string: imgUrlLogo)!
+
+            if let data = try? Data(contentsOf: url) {
+                // Create Image and Update Image View
+                companyLogo.image = UIImage(data: data)
+            }
+        }
+
     
     private func displayStockInfo(companyName: String, symbol: String, price: Double, priceChange: Double) {
         self.activityIndicator.stopAnimating()
@@ -87,6 +118,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     private func requestQuote(for symbol: String) {
+        let imageUrl = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/logo?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
         let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(symbol)/quote?&token=pk_52aa8ca08ec045a7b151e545fb2ea3d9")!
         let dataTask = URLSession.shared.dataTask(with: url) {
             data, response, error in
@@ -100,9 +132,23 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             }
             self.parseQuote(data: data)
         }
+        let dataTaskImg = URLSession.shared.dataTask(with: imageUrl) {
+            data, response, error in
+            guard
+                error == nil,
+                (response as? HTTPURLResponse)?.statusCode == 200,
+                let dataImg = data
+            else {
+                print("Network error")
+                return
+            }
+            self.parseImg(dataImg: dataImg)
+        }
         dataTask.resume()
+        dataTaskImg.resume()
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.companyPicker.dataSource = self
